@@ -1,13 +1,13 @@
 # Form-Mockapi
 ![form1](https://github.com/NeginKashani/Form-Mockapi/assets/109550062/a27ef651-8618-4ad0-840f-8b94cfce9eb8)
 ![form2](https://github.com/NeginKashani/Form-Mockapi/assets/109550062/4e424e1d-d8dd-448d-bfc6-a63334d9828f)
-- [Demo Project]()
+- [Demo Project](https://neginkashani.github.io/Form-Mockapi/)
 
 - Developed by Negin Kashani
 
 - Created - 2023-10-18
 
-- Technologies Used - Html ,CSS,Javascript-API 
+- Technologies Used - Html ,CSS,Javascript-Mockapi-API 
 
 - Hooks Used : useState 
 
