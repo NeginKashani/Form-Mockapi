@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow-x: hidden;
+            font-size: 25px;
+
+        }
+
+        main {
+            width: 100%;
+            height: 100vh;
+            background-image: url(images/pic3.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        .box {
+            width: 600px;
+            height: 550px;
+            /* border: 1px solid rgb(28, 186, 147); */
+            background-color: rgba(171, 185, 229, 0.364);
+            border-radius: 10px;
+            margin: 20px auto 80px auto;
+            font-size: 25px;
+            box-shadow: 2px 2px 10px white,
+                -2px -2px 10px white;
+
+        }
+
+        input {
+
+            width: 95%;
+            margin: 10px;
+            background-color: rgb(231, 227, 227);
+            color: rgb(12, 6, 6);
+            margin: 10px;
+            height: 35px;
+            padding: 10px;
+            font-size: 20px;
+            box-shadow: 2px 2px 10px white,
+                -2px -2px 10px white;
+
+            font-family: 'Times New Roman', Times, serif;
+
+        }
+
+        button {
+            margin-left: 250px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgb(21, 21, 51);
+            color: aliceblue;
+
+        }
+
+        .container {
+            margin-left: 550px;
+            padding-top: 20px;
+            color: antiquewhite;
+
+            >a {
+                color: azure;
+                text-decoration: none;
+                margin: 10px;
+            }
+        }
+
+
+        label {
+            display: none;
+            color: red;
+            font-size: 20px;
+            padding-left: 20px;
+            text-shadow: 1px 1px black;
+
+        }
+
+        #Registerform {
+            margin-left: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <a href="#">Register</a> -
+            <a href="index1.html">Sign In</a>
+        </div>
+        <div class="box">
+            <h4 id="Registerform">Register Form</h4>
+            <form onsubmit="myform(event)" action="reg.php" class="form" name="Register">
+                <input id="firstName" type="text" placeholder="Firstname">
+                <input id="lastName" type="text" placeholder="Lastname">
+                <input id="userName" type="text" placeholder="Username" name="username">
+                <label for="">Error Occured!</label>
+                <input id="phoneNumber" type="number" placeholder="Phonenumber" name="phone">
+                <label for="">Error Occured!</label>
+                <input id="email" type="text" placeholder="Email" name="mail">
+                <label for="">Error Occured!</label>
+                <input id="pass" type="text" placeholder="Password" name="password">
+                <label for="">Error Occured!</label>
+                <button onclick="para1()">Submit</button>
+            </form>
+
+        </div>
+        <div id="list1"></div>
+    </main>
+    <script>
+        let _list1 = document.getElementById('list1')
+        function para1() {
+            const sampleData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                email: document.getElementById('email').value,
+                userName: document.getElementById('userName').value,
+                pass: document.getElementById('pass').value,
+
+            };
+
+            fetch('https://65296f3c55b137ddc83ed17e.mockapi.io/api/Neginkashani/reg', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                // Send your data in the request body as JSON
+                body: JSON.stringify(sampleData)
+            }).then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                // handle error
+            }).then(task => {
+                // do something with the new task
+                alert('user added!')
+
+
+            }).catch(error => {
+                // handle error
+                alert('user not add to database!')
+            })
+
+        }
+        // *********
+
+        function myform(e) {
+            let flag = 0
+            let labels = document.querySelectorAll('label')
+            labels.forEach((val) => {
+                val.style.display = 'none'
+            })
+            let _email = document.forms['Register']['mail'].value
+            let _pass = document.forms['Register']['password'].value
+            let _username = document.forms['Register']['username'].value
+            let _phone = document.forms['Register']['phone'].value
+
+            if (_email == null ||
+                _email == '' ||
+                (_email.search(/<script/)) >= 0 ||
+                (_email.search(/&lt;script/)) >= 0 ||
+                (_email.search(/script/)) >= 0
+            ) {
+                document.forms['Register']['mail'].nextElementSibling.style.display = 'flex'
+                flag++
+            } else {
+
+                let temp = _email.match(/@/g)
+                if (
+                    (temp == null) ||
+                    (_email.search(/@/)) <= 2 ||
+                    _email.length < 10 ||
+                    _email.search(/[~!#$%^&*()/]/) >= 0 ||
+                    (_email.search(/\s+/)) >= 0
+                ) {
+                    document.forms['Register']['mail'].nextElementSibling.style.display = 'flex'
+                    flag++
+
+                }
+            }
+
+            if (_pass == null ||
+                _pass == '' ||
+                (_pass.search(/<script/)) >= 0 ||
+                (_pass.search(/&lt;script/)) >= 0 ||
+                (_pass.search(/script/)) >= 0
+            ) {
+                document.forms['Register']['password'].nextElementSibling.style.display = 'flex'
+                flag++
+
+            } else {
+
+                if (_pass.search(/[0-9]/) == -1 ||
+                    _pass.search(/[a-z]/) == -1 ||
+                    _pass.search(/[A-Z]/) == -1 ||
+                    _pass.search(/[~!@#$%^&*()_+]/) == -1
+                ) {
+                    document.forms['Register']['password'].nextElementSibling.style.display = 'flex'
+                    flag++
+
+                }
+            }
+            if (_username == null ||
+                _username == '' ||
+                (_username.search(/<script/)) >= 0 ||
+                (_username.search(/&lt;script/)) >= 0 ||
+                (_username.search(/script/)) >= 0
+            ) {
+                document.forms['Register']['username'].nextElementSibling.style.display = 'flex'
+                flag++
+
+            } else {
+
+                if (
+                    _username.search(/[a-z]/) == -1 ||
+                    _username.search(/[A-Z]/) == -1
+
+                ) {
+                    document.forms['Register']['username'].nextElementSibling.style.display = 'flex'
+                    flag++
+
+                }
+            }
+            if (_phone == null ||
+                _phone == '' ||
+                (_phone.search(/<script/)) >= 0 ||
+                (_phone.search(/&lt;script/)) >= 0 ||
+                (_phone.search(/script/)) >= 0
+            ) {
+                document.forms['Register']['phone'].nextElementSibling.style.display = 'flex'
+                flag++
+
+            } else {
+
+                if (
+                    _phone.search(/[0-9]/) == -1
+
+                ) {
+                    document.forms['Register']['phone'].nextElementSibling.style.display = 'flex'
+                    flag++
+
+                }
+            }
+
+
+
+            if (flag > 0) {
+                e.preventDefault()
+            }
+        }
+        //     fetch('https://65296f3c55b137ddc83ed17e.mockapi.io/api/Neginkashani/reg/67', {
+        //     method: 'DELETE',
+        // }).then(res => {
+        //     if (res.ok) {
+        //         return res.json();
+        //     }
+        //     // handle error
+        // }).then(task => {
+        //     alert('delete shodi rafti peye karet!')
+        //     // Do something with deleted task
+        // }).catch(error => {
+        //     // handle error
+        // })
+    </script>
+</body>
+
+</html>
